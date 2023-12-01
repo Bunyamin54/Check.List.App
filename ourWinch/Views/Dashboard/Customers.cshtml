@@ -1,0 +1,119 @@
+﻿@{
+
+    ViewBag.Title = "Kunder";
+
+}
+
+
+<style>
+    /* Sample styling (customize as needed) */
+    .statistics-wrapper {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .stat-item {
+        display: flex;
+    }
+
+    .kunde-wrapper {
+        margin-top: 20px;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        padding: 10px;
+        border-bottom: 1px solid #ddd;
+    }
+
+    .status-active {
+        color: green;
+    }
+
+    .status-inactive {
+        color: red;
+    }
+
+    .pagination-wrapper {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .active-page {
+        color: blue;
+        font-weight: bold;
+    }
+
+    .btn {
+
+    }
+
+
+</style>
+
+<div class="container mt-5" style="background-color: #C0D0D7; max-width: 800px; border-radius: 10px; padding: 20px; height: auto; overflow-y: auto;">
+    <!-- customer Statistics -->
+    <div class="statistics-wrapper">
+        <!-- ... Your statistics components ... -->
+    </div>
+
+    <!-- customer Table -->
+    <div class="kunde-wrapper">
+        <h1 class="text-center fw-bold">Kunder</h1>
+        <form method="get" action="@Url.Action("Dashboard", "Customers")">
+            <div class="search-wrapper">
+                <input type="search" name="query" class="p-1 h-25" placeholder="Søk på navn" />
+                @* <select name="filter">
+                     <option value="name"></option> 
+                    <!-- Other options -->
+                </select> *@
+                <button style="width: 100px" type="submit" class="btn btn-primary p-1 btn-sm fw-bold">Søk</button>
+            </div>
+        </form>
+
+        @model List<ourWinch.Models.Dashboard.ServiceOrder>
+
+        <table>
+            <thead>
+                <tr>
+                    <th>Kunde Navn</th>
+                    <th>Etter Navn</th>
+                    <th>Tlf Nummer</th>
+                    <th>Email</th>
+                    <th>Adress</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var order in Model)
+                {
+                    <tr>
+                        <td>@order.Fornavn</td>
+                        <td>@order.Etternavn</td>
+                        <td>@order.MobilNo</td>
+                        <td>@order.Email</td>
+                        <td>@order.Adresse</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <!-- Pagination -->
+        <div class="pagination-wrapper">
+            @for (var i = 1; i <= ViewBag.TotalPages; i++)
+            {
+                if (i == ViewBag.CurrentPage)
+                {
+                    <span class="active-page">@i</span>
+                }
+                else
+                {
+                    <a href="@Url.Action("Dashboard", "Customers", new { page = i })">@i</a>
+                }
+            }
+        </div>
+    </div>
+</div>

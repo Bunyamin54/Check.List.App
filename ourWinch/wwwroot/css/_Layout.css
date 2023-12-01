@@ -1,0 +1,32 @@
+﻿.sidebar {
+    background-color: black;
+    color: #9CB7C2;
+    height: 120vh;
+    padding-top: 0px; /* You can control the position of the 'Hjem' item by adjusting this value.. */
+    overflow-y: auto;
+}
+    .sidebar .nav-link {
+        color: #9CB7C2;
+        background-color: black;
+    }
+/* Add transition to dropdown for smoother animation */
+#brukerOperasjonerSubmenu {
+    transition: visibility 0.5s, opacity 0.5s linear;
+}
+/* CSS rule to change cursor to pointer on hover */
+.nav-link:hover {
+    cursor: pointer;
+}
+.sidebar .nav-link:hover {
+    color: #A8C29C;
+}
+.logout-button {
+    background-color: #DB0817;
+    padding: 5px;
+    transition: background-color 0.3s;
+}
+
+    .logout-button:hover {
+        background-color: #DB2500;
+        opacity:1;
+    }

@@ -1,0 +1,175 @@
+﻿@model ourWinch.Models.Dashboard.ServiceOrder
+
+@{
+    ViewBag.Title = "Ny Service";
+}
+
+<div class="container mt-3 container-max-height" style="background-color: #C0D0D7; max-width: 800px; border-radius: 5px;   max-height: 110vh; overflow-y: auto;">
+    <form action="/ServiceOrder/Create" method="post">
+        @Html.AntiForgeryToken()
+        <div class="row justify-content-center">
+            <div class="col-12 text-center my-3">
+                <img class="logo-image rounded" src="/img/nøsted2.jpeg" alt="nøsted Logo" width="230" style="border-radius: 5px;">
+                <h2 class="font-weight-bold mt-4" style="font-size: 2em; font-weight: 600;">Ny Service</h2>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <!-- Left Section -->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label class="text-dark">Fornavn</label>
+                    <input type="text" name="Fornavn" class="form-control form-control-sm rounded-input" placeholder="Fornavn" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="text-dark">Etternavn</label>
+                    <input type="text" name="Etternavn" class="form-control form-control-sm" placeholder="Etternavn" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="text-dark">Mobil No</label>
+                    <input type="tel" name="MobilNo" class="form-control form-control-sm" placeholder="Mobil No">
+                </div>
+
+                <div class="form-group">
+                    <label class="text-dark">Email</label>
+                    <input type="email" name="Email" class="form-control form-control-sm" placeholder="Email" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="text-dark">Adresse</label>
+                    <input type="text" name="Adresse" class="form-control form-control-sm" placeholder="Adresse" required>
+                </div>
+
+                <div class="form-group">
+                    <label class="text-dark mt-2">Feilbeskrivelse</label>
+                    <textarea name="Feilbeskrivelse" class="form-control form-control-sm flex-textarea-feil mt-1" rows="5" placeholder="Feilbeskrivelse" required></textarea>
+                </div>
+            </div>
+
+            <!-- Right Section-->
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="Ordrenummer">Ordrenummer</label>
+                    <input type="text" class="form-control form-control-sm" value="@Model.Ordrenummer" readonly />
+
+                </div>
+
+
+                <div class="form-group">
+                    <label class="text-dark">Produkttype</label>
+                    <input type="text" name="Produkttype" class="form-control form-control-sm" placeholder="Produkttype">
+                </div>
+
+                <div class="form-group">
+                    <label class="text-dark">Serienummer</label>
+                    <input type="text" name="Serienummer" class="form-control form-control-sm" placeholder="Serienummer" required>
+                </div>
+
+                <div class="form-group d-flex align-items-start justify-content-between">
+                    <div class="mottatt-dato" required>
+                        <label class="text-dark">Mottatt Dato</label>
+                        <div class="input-group">
+                            <input type="date" id="datepicker" name="MottattDato" class="form-control form-control-sm">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fa fa-calendar"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="text-dark">Årsmodell</label>
+                        <div class="input-group">
+                            <input type="text" name="Årsmodell" class="form-control form-control-sm" placeholder="2021">
+                            <div class="input-group-append">
+                                <span class="input-group-text">
+                                    <i class="fa fa-caret-down"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group d-flex align-items-center justify-content-between mt-5">
+                    <div class="d-flex align-items-center">
+                        <input type="checkbox" name="Garanti" value="true" class="mr-2">
+                        <label>Garanti</label>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <input type="checkbox" name="Service" value="true" class="mr-2">
+                        <label>Service</label>
+                    </div>
+
+                    <div class="d-flex align-items-center">
+                        <input type="checkbox" name="Reperasjon" value="true" class="mr-2">
+                        <label>Reperasjon</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="text-dark mt-2">Kommentar Fra Kunde</label>
+                    <textarea name="KommentarFraKunde" class="form-control form-control-sm flex-textarea-kommentar" rows="5" placeholder="Kommentar Fra Kunde"></textarea>
+                </div>
+            </div>
+        </div>
+
+        <div class="row justify-content-center">
+            <div class="col-12 text-center my-4">
+                <button type="submit" class="btn" style="background-color: #4945F9; color: #fff;">Opprett Ny Ordre</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        var bookedDates = JSON.parse('@Html.Raw(ViewBag.BookedDates)').map(function(date) {
+            return new Date(date).toISOString().split('T')[0]; 
+        });
+
+        var dateInput = document.getElementById('datepicker');
+
+        if (dateInput) {
+            dateInput.addEventListener('change', function() {
+                var selectedDate = new Date(this.value).toISOString().split('T')[0];
+                var isBooked = bookedDates.includes(selectedDate);
+
+                if (isBooked) {
+                    var availableDates = getAvailableDates(selectedDate, bookedDates);
+                    Swal.fire({
+                        title: 'Datoen er ikke tilgjengelig!',
+                        html: 'Vennligst velg en annen dato. Tilgjengelige alternative datoer: <b>' + availableDates.join(', ') + '</b>',
+                        icon: 'warning',
+                        confirmButtonText: 'OK'
+                    });
+                    this.value = ''; 
+                }
+            });
+        } else {
+            console.error('Date input not found.');
+        }
+    });
+
+    function getAvailableDates(selectedDate, bookedDates) {
+        var availableDates = [];
+        var currentDate = new Date(selectedDate);
+        var maxDateRange = 30; 
+        var count = 0;
+
+        while (availableDates.length < 3 && count < maxDateRange) {
+            currentDate.setDate(currentDate.getDate() + 1); 
+            var dateStr = currentDate.toISOString().split('T')[0];
+
+            if (!bookedDates.includes(dateStr)) {
+                availableDates.push(dateStr);
+            }
+            count++;
+        }
+        return availableDates;
+    }
+</script>

@@ -1,0 +1,98 @@
+﻿@using ourWinch.Models.Dashboard;
+@model IEnumerable<ServiceOrder>
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var totalPages = ViewBag.TotalPages;
+    var currentPage = ViewBag.CurrentPage;
+    ViewBag.Title = "Fulførte Servicer";
+}
+<style>
+    /* Pagination styling */
+    .pagination-wrapper {
+        display: flex;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .pagination-link {
+        display: inline-block;
+        padding: 5px 10px;
+        margin: 0 5px;
+        border: 1px solid #ddd;
+        text-decoration: none;
+        color: #333;
+    }
+
+    .active-page {
+        padding: 5px 10px;
+        margin: 0 5px;
+        background-color: #007bff;
+        color: white;
+        border: 1px solid #007bff;
+    }
+
+    /* Hover effect for pagination links */
+    .pagination-link:hover {
+        background-color: #007bff;
+        color: white;
+    }
+</style>
+
+    <div class="heading" style="background-color: #C0D0D7; border-radius: 10px; display: block; padding: 10px 30px; text-align: center; font-weight: bold; font-size: 32px; margin: 10px auto; margin-top: 5%; width: fit-content;">Fulførte Servicer</div>
+
+
+    <!-- Table -->
+    <div class="table-responsive mt-2">
+        <table class=" table table-bordered text-center" style="font-size: 16px;">
+            <thead style="background-color: #B9B9B9;">
+                <tr>
+                    <th style="border-bottom: 2px solid #000; border-top: 2px solid #000; border-right: 2px solid #000;">OrderID</th>
+                    <th style="border-bottom: 2px solid #000; border-top: 2px solid #000; border-right: 2px solid #000;">Product Type</th>
+                    <th style="border-bottom: 2px solid #000; border-top: 2px solid #000; border-right: 2px solid #000;">Kunde</th>
+                    <th style="border-bottom: 2px solid #000; border-top: 2px solid #000; border-right: 2px solid #000;">Mottatt Dato</th>
+                    <th style="border-bottom: 2px solid #000; border-top: 2px solid #000; border-right: 2px solid #000;">Feilbeskriving</th>
+                    @* <th style="border-bottom: 2px solid #000; border-top: 2px solid #000; border-right: 2px solid #000;">Avtalt Levering</th> *@
+                    <th style="border-bottom: 2px solid #000; border-top: 2px solid #000; border-right: 2px solid #000;">Status</th>
+                    <th style="border-bottom: 2px solid #000; border-top: 2px solid #000; border-right: 2px solid #000;">Service Skjema</th>
+
+                </tr>
+            </thead>
+
+            <tbody class="text-center">
+                @foreach (var service in Model)
+                {
+                    <!-- Iterate through the data from the Model and list it -->
+                    <tr>
+                        <td>@service.ServiceOrderId</td>
+                        <td>@service.Produkttype</td>
+                        <td>@service.Fornavn @service.Etternavn</td>
+                        <td>@service.MottattDato.ToString("dd/MM/yyyy")</td>
+                        <td>@service.Feilbeskrivelse</td>
+                        @* <td>@service.AvtaltLevering.ToString("dd/MM/yyyy")</td> *@
+                        <td class="status-@service.Status.ToLowerInvariant()">@(service.Status)</td>
+                        <td>
+                            @if (@service.ServiceSkjema == "Ja")
+                            {
+                                <a href="@Url.Action("Index", "ServiceSkjema", new { id = @service.ServiceOrderId })">@service.ServiceSkjema</a>
+                            }
+                            else
+                            {
+                                @service.ServiceSkjema
+                            }
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <nav>
+            <ul class="pagination justify-content-center">
+                @for (int i = 1; i <= totalPages; i++)
+                {
+                    <li class="page-item @(i == currentPage ? "active" : "")">
+                        <a class="page-link" href="@Url.Action("Index", "CompletedService", new { page = i })">@i</a>
+                    </li>
+                }
+            </ul>
+        </nav>
+    </div>

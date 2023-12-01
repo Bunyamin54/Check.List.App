@@ -1,0 +1,75 @@
+﻿@model ourWinch.Models.Account.ApplicationUser
+
+
+@{
+    ViewBag.Title = "Redigering";
+}
+
+<h1 class="text-info">Rediger Brukeren</h1>  <!-- Heading for the form -->
+
+<div class="row">
+    <div class="col-md-8">
+        <!-- Form for submitting the edited user details -->
+        <form method="post" asp-action="Edit">
+            
+            
+            <!-- Hidden field for the user's ID -->
+            <input asp-for="@Model.Id" hidden/>
+            <hr/>
+            
+            <!-- Summary of validation messages for the entire model -->
+            <div asp-validation-summary="All" class="text-danger"></div>
+            
+            
+            <!-- Form group for 'Fornavn' (First Name) -->
+            <div class="form-group">
+                <label asp-for="Fornavn"></label>
+                <input asp-for="Fornavn" class="form-control"/>
+                <span asp-validation-for="Fornavn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Etternavn"></label>
+                <input asp-for="Etternavn" class="form-control"/>
+                <span asp-validation-for="Etternavn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PhoneNumber"></label>
+                <input asp-for="PhoneNumber" class="form-control"/>
+                <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" readonly class="form-control"/>
+                <input asp-for="Email" hidden/>
+            </div>
+
+
+
+            <div class="form-group">
+                <label asp-for="RoleId"></label>
+                <select asp-for="RoleId" asp-items="@Model.RoleList" class="form-control" autocomplete="off">
+                    @if (Model.RoleId == null)
+                    {
+                        <option selected="selected" disabled="disabled">--Velg en Rolle--</option>
+                    }
+                    else
+                    {
+                        <option disabled="disabled">--Velg en Rolle--</option>
+                    }
+                </select>
+
+
+
+            </div>
+            
+            
+            <!-- Buttons for submitting the form or navigating back -->
+            <div class="form-group">
+                <button type="submit" class="btn btn-success">Oppdater</button>
+                <a asp-action="Index" class="btn btn-warning" style="width:auto">Tilbake til Brukere</a>
+            </div>
+
+        </form>
+    </div>
+</div>
