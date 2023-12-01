@@ -57,4 +57,50 @@
 </pre>
 
 
-See WiKi for more info and documentation. https://github.com/bxn0/ourWinch/wiki
+This code block follows the MVC (Model-View-Controller) architectural pattern. This pattern separates the application into three main components, providing a modular and easily maintainable structure.
+
+## * Model
+
+Includes data models such as the AppDbContext class and Identity-related classes (ApplicationUser, IdentityRole, etc.). Database operations and user authorization processes are handled in this layer.
+ <pre> 
+ ## Models 
+
+  │   ├── **AccountModel**        
+  │   ├── **ChecklistModel**      
+  │   ├── **DashboardModel**      
+  │   ├── **ErrorViewModel**      
+
+</pre>
+
+## * View
+
+Includes elements related to the user interface, such as Razor pages in the Views folder and static files (CSS, JavaScript, etc.) in the wwww root folder.
+ <pre>
+ ## Views 
+
+  │   ├── **Account**          
+  │   ├── **Dashboard**        
+  │   ├── **Electro**         
+  │   ├── **FunksjonsTest**   
+  │   ├── **Hydrolisk**       
+  │   ├── **Mechanical**      
+  │   ├── **Roles**           
+  │   ├── **ServiceOrder**    
+  │   ├── **ServiceSkjema**   
+  │   ├── **Trykk**  
+  │   ├── **User**          
+
+      </pre>    
+
+
+## * Controller
+
+Controller classes like AccountController receive HTTP requests, initiate processes, and redirect to the appropriate view to display results.
+ <pre>
+## Controllers
+
+   │   ├── **AccountControllers**    
+   │   ├── **CheckListControllers** 
+   │   ├── **DashboardControllers** 
+
+</pre>
