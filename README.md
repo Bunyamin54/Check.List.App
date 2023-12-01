@@ -158,3 +158,82 @@ User registration and editing can only be done by administrators. Administrators
 - For orders with completed checks, the service schema can be accessed again through the active service page, and the results of the service can be viewed here. The output of this page can be printed and sent to the customer along with some recommendations, providing information on the changes made and those that are recommended.
 
 
+## Identity Service
+
+The Identity service added with the AddIdentity method handles user management and authorization processes, including operations like user registration, login, and role management.
+
+## Migration for Adding Identity Tables
+
+This migration script adds the necessary tables for ASP.NET Core Identity. It includes tables for roles, users, role claims, user claims, user logins, user roles, and user tokens.
+
+## Tables Created
+
+- `AspNetRoles`: Stores roles information.
+- `AspNetUsers`: Stores users information.
+- `AspNetRoleClaims`: Stores role claims.
+- `AspNetUserClaims`: Stores user claims.
+- `AspNetUserLogins`: Stores user logins.
+- `AspNetUserRoles`: Stores user roles.
+- `AspNetUserTokens`: Stores user tokens.
+
+## How to Apply the Migration
+
+To apply this migration, run the following command in the Package Manager Console:
+
+bash - Update-Database
+
+## How to Rollback the Migration
+
+If needed, you can rollback the migration by running the following command:
+
+### Remove-Migration
+
+# Database Connection
+
+Entity Framework Core, added with the AddDbContext method on AppDbContext, manages database operations. Access, query, and update operations on the database are performed through this layer.
+
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
+
+
+/// <summary>
+/// Represents the database context for the application, derived from IdentityDbContext for user management.
+/// </summary>
+public class AppDbContext : IdentityDbContext<ApplicationUser>
+{
+    /// <summary>
+    /// Initializes a new instance of the <see cref="AppDbContext"/> class.
+    /// </summary>
+    /// <param name="options">The options to be used by the context.</param>
+    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    {
+        // Constructor logic.
+    }
+
+    /// <summary>
+    /// Gets or sets the DbSet for ServiceOrders.
+    /// </summary>
+    public DbSet<ServiceOrder> ServiceOrders { get; set; }
+
+   
+
+    /// <summary>
+    /// Gets or sets the DbSet for ApplicationUser.
+    /// </summary>
+    public DbSet<ApplicationUser> ApplicationUser { get; set; }
+}
+
+## Swagger and Notyf Service
+
+Swagger is used to generate and view API documentation (AddSwaggerGen, UseSwagger, UseSwaggerUI). The Notyf service is used for managing notifications (AddNotyf).
+
+## Email Sending Service
+
+The MailJetEmailSender class is used to perform email sending operations. This class implements the IEmailSender interface.
+
+## ServiceSkjemaService
+
+The ServiceSkjemaService class represents a custom service, likely performing tasks such as business logic, data processing, or interaction with another service. This service is added with the AddScoped method, creating a scope for each HTTP request.
+
+Interactions between these main components occur through HTTP requests and are handled by controllers. Controllers execute business logic, call services if necessary, and redirect results to views. This modular structure allows each component to have clear responsibilities.
+
