@@ -104,3 +104,49 @@ Controller classes like AccountController receive HTTP requests, initiate proces
    │   ├── **DashboardControllers** 
 
 </pre>
+
+
+## Docker Compose Configuration
+
+### Version
+- `version: '3.4'`  
+  Specifies the Docker Compose file format version. Compatible with Docker Engine 17.09.0+.
+
+### Services
+This section defines two services: `app` and `db`.
+
+#### App Service
+- `image: app-image`  
+  The Docker image for the application is named `app-image`. Docker will pull it from a registry if it's not found locally.
+- `build`:
+  - `context: .`  
+    The build context is set to the current directory.
+  - `dockerfile: Dockerfile`  
+    Specifies the Dockerfile in the current directory for building the image.
+- `ports`:
+  - `"80:5002"` and `"443:5002"`  
+    Maps port 5002 inside the container to ports 80 and 443 on the host machine, likely for HTTP and HTTPS traffic.
+- `environment`:
+  - Sets environment variables like `ASPNETCORE_ENVIRONMENT` and the database connection string (`ConnectionStrings__DefaultConnection`).
+- `depends_on`:
+  - Indicates a dependency on the `db` service. Docker Compose will start `db` first.
+
+#### DB Service
+- `image: mcr.microsoft.com/mssql/server`  
+  Uses the official Microsoft SQL Server image.
+- `environment`:
+  - Sets the SA password and accepts the EULA.
+- `ports`:
+  - Maps port 1433 inside the container to port 1433 on the host machine.
+- `volumes`:
+  - Uses a volume named `dbdata` to persist data.
+
+### Volumes
+- `dbdata`:  
+  A named volume for the database service, where SQL Server stores its data files.
+
+
+
+
+![2023-11-27_14-43-19](https://github.com/bxn0/ourWinch/assets/82652466/1b96c4d9-195e-4f80-97ec-cfd03d3e190b)
+
