@@ -237,3 +237,52 @@ The ServiceSkjemaService class represents a custom service, likely performing ta
 
 Interactions between these main components occur through HTTP requests and are handled by controllers. Controllers execute business logic, call services if necessary, and redirect results to views. This modular structure allows each component to have clear responsibilities.
 
+
+The directory structure below represents the organization of a C#/.NET application project. Each subdirectory and file has a specific responsibility.
+
+## OurWinch-Nøsted-App (GitHub Repository Root)
+
+<pre>
+Root
+│
+├── CSS
+│   ├── Layout.css
+├── Image
+├── Controllers
+│   ├── AccountControllers
+│   │   ├── (files related to user accounts and authentication processes)
+│   ├── CheckListControllers
+│   │   ├── (files managing checklist-related operations)
+│   ├── DashboardControllers
+│   │   ├── (files related to the overview and dashboard operations)
+├── Data
+│   ├── AppDbContext
+│   │   ├── (files related to database connection and model definitions)
+├── Migrations
+│   ├── (migration files tracking database changes)
+├── Models
+│   ├── AccountModel
+│   │   ├── (files related to user accounts and authentication)
+│   ├── ChecklistModel
+│   │   ├── (files related to checklist operations)
+│   ├── DashboardModel
+│   │   ├── (files related to overview and dashboard operations)
+│   ├── ErrorViewModel
+│   │   ├── (files used for error display)
+├── Services
+│   ├── (files containing service classes used within the application)
+├── Views
+│   ├── (files representing different sections of the user interface)
+├── Shared
+│   ├── Layout.cshtml
+│   │   ├── (commonly used view components)
+│   ├── appsettings.json
+│   │   ├── (the application's configuration file)
+├── DockerFile
+│   ├── (Dockerfile used to create the Docker container for the application)
+├── Program.cs
+│   ├── (the entry point file for the application)
+
+</pre>
+
+This directory structure logically organizes different parts of the application, making it easier to maintain, extend, and understand. Each subdirectory and file has a specific responsibility, ensuring clean and organized project management.
